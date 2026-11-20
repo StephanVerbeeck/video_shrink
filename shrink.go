@@ -32,7 +32,7 @@ type ProbeData struct {
 }
 
 const (
-	shrunkDoneFile    = "shrunk.txt"
+	shrunkDoneFile    = "shrunk done.txt"
 	shrunkFailedFile  = "shrunk failed.txt"
 	shrunkSkippedFile = "shrunk skipped.txt"
 )
@@ -111,7 +111,7 @@ func main() {
 				_, exists := processedFiles[fileName]
 				return exists
 			})
-			log.Printf(`Excluded %d already processed file(s) found in "shrunk.txt".\n`, len(processedFiles))
+			log.Printf(`Excluded %d already processed file(s) found in "shrunk done.txt".\n`, len(processedFiles))
 		}
 
 		failedFiles := loadShrunkList(Path(ExeDir(), shrunkFailedFile))
