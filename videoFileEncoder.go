@@ -6,23 +6,18 @@ import (
 
 // VideoEncodingHardware test daadwerkelijk of de hardware-acceleratie werkt op deze machine.
 func VideoEncodingHardware() string {
-	// 1. Test Intel QSV
-	if testFfmpegHardware("hevc_qsv") {
-		return "QSV"
+	if testFfmpegHardware("hevc_nvenc") { // Test NVIDIA CUDA / NVENC
+		return "CUDA" // Nvidia GPU hardware detected
+	}
+	if testFfmpegHardware("hevc_qsv") { // Test Intel QSV
+		return "QSV" // Intel GPU hardware detected
+	}
+	if testFfmpegHardware("hevc_amf") { // Test AMD AMF
+		return "AMF" // AMD GPU detected
 	}
 
-	// 2. Test NVIDIA CUDA / NVENC
-	if testFfmpegHardware("hevc_nvenc") {
-		return "CUDA"
-	}
-
-	// 3. Test AMD AMF
-	if testFfmpegHardware("hevc_amf") {
-		return "AMF"
-	}
-
-	// Fallback als niets werkt
-	return "CPU"
+	// no video encoding hardware present (or drivers not installed)
+	return ""
 }
 
 // testFfmpegHardware voert een bliksemnette test uit van 1 frame om te zien of de encoder opstart
